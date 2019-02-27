@@ -59,7 +59,7 @@ $(function() {
 
 describe('the menu', function() {
 
-        const hiddenMenu = document.querySelector('body').classList;
+        const hiddenMenu = document.querySelector('.slide-menu');
         const menuIcon = document.querySelector('.menu-icon-link');
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
@@ -69,7 +69,8 @@ describe('the menu', function() {
 
          it('is hidden by default', function(){
 
-            expect(hiddenMenu[0]).toBe('menu-hidden')
+            expect(hiddenMenu.parentElement.classList[0]).toBe('menu-hidden')
+            expect($(hiddenMenu).offset().left).toBe(-192)
 
          })
 
@@ -79,21 +80,36 @@ describe('the menu', function() {
           * clicked and does it hide when clicked again.
           */
 
-          it('displays when clicked and hides when clicked again', function(){
+          it('displays menu when clicked and hides when clicked again', function(){
 
             menuIcon.click();
 
-            expect(hiddenMenu.length).toBe(0);
+
+
+            expect(hiddenMenu.parentElement.classList.length).toBe(0);
+            console.log($(hiddenMenu).offset())
+             /* This expectation is not being met at the click animation has a delay of 0.2 sec so that expectation needs to be set asychronous i.e. settimeout (It has been tried by deleting the transition animations of the style.css file l60 l81) */
+            expect($(hiddenMenu).offset().left).toBe(0)
 
             menuIcon.click();
 
-            expect(hiddenMenu[0]).toBe('menu-hidden')
+            expect(hiddenMenu.parentElement.classList[0]).toBe('menu-hidden')
+            console.log($(hiddenMenu).offset())
+            expect($(hiddenMenu).offset().left).toBe(-192)
 
           })
 
 })
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+
+/* TODO: Write a new test suite named "Initial Entries" */
+
+describe ('Initial Entries', function() {
+
+        beforeEach(function() {
+            loadFeed(0)
+            done()
+        })
 
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
@@ -101,6 +117,9 @@ describe('the menu', function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+
+})
+
 
     /* TODO: Write a new test suite named "New Feed Selection" */
 
