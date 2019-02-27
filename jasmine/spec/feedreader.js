@@ -95,6 +95,7 @@ describe('the menu', function() {
 
             expect(hiddenMenu.parentElement.classList[0]).toBe('menu-hidden')
             console.log($(hiddenMenu).offset())
+             /* This expectation is not being met at the click animation has a delay of 0.2 sec so that expectation needs to be set asychronous i.e. settimeout (It has been tried by deleting the transition animations of the style.css file l60 l81) */
             expect($(hiddenMenu).offset().left).toBe(-192)
 
           })
