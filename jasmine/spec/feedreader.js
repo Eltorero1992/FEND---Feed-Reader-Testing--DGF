@@ -84,8 +84,6 @@ describe('the menu', function() {
 
             menuIcon.click();
 
-
-
             expect(hiddenMenu.parentElement.classList.length).toBe(0);
             console.log($(hiddenMenu).offset())
              /* This expectation is not being met at the click animation has a delay of 0.2 sec so that expectation needs to be set asychronous i.e. settimeout (It has been tried by deleting the transition animations of the style.css file l60 l81) */
@@ -107,9 +105,10 @@ describe('the menu', function() {
 
 describe ('Initial Entries', function() {
 
-        beforeEach(function() {
-            loadFeed(0)
-            done()
+        const feedContainer = document.querySelector('.feed')
+
+        beforeEach(function(done) {
+            loadFeed(0,done)
         })
 
         /* TODO: Write a test that ensures when the loadFeed
@@ -118,6 +117,10 @@ describe ('Initial Entries', function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+         it("feed container is not empty", function(){
+            console.log(feedContainer.childElementCount);
+            expect(feedContainer.childElementCount).not.toBe(0);
+         })
 
 })
 
