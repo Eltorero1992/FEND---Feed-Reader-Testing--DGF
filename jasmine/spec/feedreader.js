@@ -57,7 +57,7 @@ $(function() {
 
     /* TODO: Write a new test suite named "The menu" */
 
-describe('the menu', function() {
+describe('the slide menu', function() {
 
         const hiddenMenu = document.querySelector('.slide-menu');
         const menuIcon = document.querySelector('.menu-icon-link');
@@ -73,6 +73,13 @@ describe('the menu', function() {
             expect($(hiddenMenu).offset().left).toBe(-192)
 
          })
+})
+
+
+describe('the slide menu', function() {
+
+        const hiddenMenu = document.querySelector('.slide-menu');
+        const menuIcon = document.querySelector('.menu-icon-link');
 
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
@@ -80,21 +87,41 @@ describe('the menu', function() {
           * clicked and does it hide when clicked again.
           */
 
-          it('displays menu when clicked and hides when clicked again', function(){
 
-            menuIcon.click();
+          /* This asynchronous function allows to check if menu has been displayed
+          successfully after it has been clicked and the animation has finished
+
+            [TODO | BUG ] Sometimes this test suite fails
+
+            Cause: Animation runs quicker than the test suite
+
+            Root:   1.Multiple asynchronous responses at once
+                    2.Computational power
+                    3.Scroll down when test suite is running
+
+            Attempts: 1. Changed delay time to be greater than animation time (0.2s).
+                         No predictable whether it will pass or fail
+
+          */
+
+          beforeEach(function(done) {
+                menuIcon.click()
+                setTimeout(function(){
+                    done();
+                }, 201)
+          })
+
+          it('displays menu when clicked', function(){
 
             expect(hiddenMenu.parentElement.classList.length).toBe(0);
-            console.log($(hiddenMenu).offset())
-             /* This expectation is not being met at the click animation has a delay of 0.2 sec so that expectation needs to be set asychronous i.e. settimeout (It has been tried by deleting the transition animations of the style.css file l60 l81) */
-            // expect($(hiddenMenu).offset().left).toBe(0)
+            /* Checks for the position of the the menu after being clicked (Shown) */
+            expect($(hiddenMenu).offset().left).toBe(0)
+        })
 
-            menuIcon.click();
-
+        it('hides when clicked again',function(){
             expect(hiddenMenu.parentElement.classList[0]).toBe('menu-hidden')
-            console.log($(hiddenMenu).offset())
-             /* This expectation is not being met at the click animation has a delay of 0.2 sec so that expectation needs to be set asychronous i.e. settimeout (It has been tried by deleting the transition animations of the style.css file l60 l81) */
-            // expect($(hiddenMenu).offset().left).toBe(-192)
+            /* Checks for the position of the the menu after being clicked (Hidden) */
+            expect($(hiddenMenu).offset().left).toBe(-192)
 
           })
 
@@ -108,7 +135,7 @@ describe ('Initial Entries', function() {
         const feedContainer = document.querySelector('.feed')
 
         beforeEach(function(done) {
-            loadFeed(0,done)
+            loadFeed(0, done)
         })
 
         /* TODO: Write a test that ensures when the loadFeed
@@ -126,23 +153,24 @@ describe ('Initial Entries', function() {
 
 
     /* TODO: Write a new test suite named "New Feed Selection" */
-describe("New Feed Selection", function(){
+// describe("New Feed Selection", function(){
 
-        const feedContainer = document.querySelector('.feed')
+//         const feedContainer = document.querySelector('.feed')
 
-        beforeEach(function(done) {
-            loadFeed(0,done)
-        })
-    /* TODO: Write a test that ensures when a new feed is loaded
-     * by the loadFeed function that the content actually changes.
-     * Remember, loadFeed() is asynchronous.
-     */
+//             beforeEach(function(done) {
+//                 loadFeed(0,done)
 
-     it('Content changes when loaded',function(){
+//         })
+//      TODO: Write a test that ensures when a new feed is loaded
+//      * by the loadFeed function that the content actually changes.
+//      * Remember, loadFeed() is asynchronous.
 
 
-     })
+//      it('Content changes when loaded',function(){
 
-})
+
+//      })
+
+// })
 
 }());
