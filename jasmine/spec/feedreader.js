@@ -111,17 +111,19 @@ describe('the slide menu', function() {
                 }, 201)
           })
 
-          it('displays menu when clicked', function(){
+          it('displays menu when clicked', function(done){
 
             expect(hiddenMenu.parentElement.classList.length).toBe(0);
             /* Checks for the position of the the menu after being clicked (Shown) */
             expect($(hiddenMenu).offset().left).toBe(0)
+            done();
         })
 
-        it('hides when clicked again',function(){
+        it('hides when clicked again',function(done){
             expect(hiddenMenu.parentElement.classList[0]).toBe('menu-hidden')
             /* Checks for the position of the the menu after being clicked (Hidden) */
             expect($(hiddenMenu).offset().left).toBe(-192)
+            done();
 
           })
 
@@ -134,8 +136,12 @@ describe ('Initial Entries', function() {
 
         const feedContainer = document.querySelector('.feed')
 
+        /* This function runs loadFeed and callsback once it has finished (2nd parameter in loadFeed) */
+
         beforeEach(function(done) {
-            loadFeed(0, done)
+            loadFeed(0, (function () {
+                done();
+            }))
         })
 
         /* TODO: Write a test that ensures when the loadFeed
@@ -144,33 +150,52 @@ describe ('Initial Entries', function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-         it("feed container is not empty", function(){
-            console.log(feedContainer.childElementCount);
+         it("feed container is not empty", function(done){
             expect(feedContainer.childElementCount).toBeGreaterThan(0);
+            done();
          })
 
 })
 
-
     /* TODO: Write a new test suite named "New Feed Selection" */
-// describe("New Feed Selection", function(){
 
-//         const feedContainer = document.querySelector('.feed')
+describe("New Feed Selection", function(){
 
-//             beforeEach(function(done) {
-//                 loadFeed(0,done)
+        const feedContainer = document.querySelector('.feed')
+        const feedEntry = feedContainer.children
 
-//         })
+        beforeEach(function(done) {
+            loadFeed(0, (function () {
+                done();
+            }))
+        })
+
 //      TODO: Write a test that ensures when a new feed is loaded
 //      * by the loadFeed function that the content actually changes.
 //      * Remember, loadFeed() is asynchronous.
 
+        it('Content changes when loaded',function(done){
 
-//      it('Content changes when loaded',function(){
+        expect(function () {
 
+            let counter = 0;
 
-//      })
+                for (var i = 1; i <= feedContainer.childElementCount; i++) {
 
-// })
+                    if (feedEntry[i-1].innerText !== feedEntry[i]) {
+                        counter ++
+                    }
+                }
+
+            return counter
+
+        }()).toBe(10)
+
+        done();
+
+     })
+
+})
+
 
 }());
